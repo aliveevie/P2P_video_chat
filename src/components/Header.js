@@ -1,6 +1,8 @@
+import '../App.css'
+
 export default function Headers(){
-    return (<div>
-        <h1>FreecodeCamp</h1>
+    return (<div  className="header">
+        <h1>Recipe Box</h1>
         </div>
     )
 }
