@@ -53,12 +53,27 @@ body {
     padding: 10px;
     border-radius: 15px;
 }
+.recipe-header button{
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
 
 .contents{
   background-color: #3a4551;
   width: 700px;
   height: fit-content;
   padding: 10px;
+}
+
+img{
+  width: 50px;
+  margin: 10px;
 }
 
 
