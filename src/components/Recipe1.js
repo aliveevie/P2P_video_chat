@@ -17,6 +17,8 @@ export default  function Recipes(){
     const [newIngrd, setNewIngrd] = useState('');
     const [newdirec, setNewDirec] = useState('');
 
+    const [styleBody, setStyleBody] = useState({});
+
     function handleNewRecipes(event){
         setNewRecipes(event.target.value)
     }
@@ -37,9 +39,8 @@ export default  function Recipes(){
         setShowAddBox(false);
         setNewIngrd(''); // Clear the new ingredient input
         setNewDirec(''); // Clear the new direction input
+        setStyleBody({});
     }
-
-   
     
     function handleButtonClick(recipe){
         setHeader(recipe)
@@ -76,12 +77,15 @@ const handleChange = (event) => {
   
   const handleSaving = () => {
     setShowUpdateBox(false); // Close the edit dialog
+    
   };
 
   function handleUpdateBox(){
     setShowUpdateBox(show => !show)
+    setStyleBody({backgroundColor:'lightRed'})
     setShowAddBox(false);
 }
+
   function handleAddBox(){
     setShowAddBox(show => !show)
   }
@@ -98,8 +102,12 @@ const handleChange = (event) => {
         <li key={index}>{steps}</li>
     ));
 
+
     return (
-        <div>
+
+        
+        <div style={styleBody} >
+       
             { showUpdateBox &&  !showAddBox && <div className="update-box" >
                 <button className="close"  onClick={handleUpdateBox} >X</button>
                 <h3>Recipes </h3>
@@ -155,9 +163,10 @@ const handleChange = (event) => {
                 </div>
 
             </div> }
+        
             
             
-        <div className="recipes-element" >
+        <div className="recipes-element">
            {recipes.map((recipe, index) => (
             <li  key={index}>
                  <button  

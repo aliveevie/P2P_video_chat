@@ -1,7 +1,6 @@
 
 body {
   background: red;
-
   color: white;
   margin: 0px;
   margin-bottom: 20px;
@@ -76,6 +75,7 @@ img{
   margin: 10px;
 }
 
+
 .update-box {
   width: 400px;
   height: 400px;
@@ -83,6 +83,7 @@ img{
   background-color: aqua;
   margin: 0 auto;
   color: black;
+  text-align: center;
 }
 
 .footer{
@@ -107,4 +108,13 @@ img{
   line-height: inherit;
 }
 
+textarea,
+input {
+  display: block;
+  margin: 10px auto; /* Center the textarea and input horizontally within update-content */
+  width: 80%; /* Adjust the width as needed */
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 
