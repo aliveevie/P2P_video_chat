@@ -76,16 +76,13 @@ img{
   margin: 10px;
 }
 
-.update-box{
+.update-box {
   width: 400px;
   height: 400px;
   border-radius: 10px;
   background-color: aqua;
-  display: block;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  color: black
+  margin: 0 auto;
+  color: black;
 }
 
 .footer{

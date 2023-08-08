@@ -12,7 +12,6 @@ export default  function Recipes(){
     const [recipeToshow, setRecipeToShow] = useState(recipes[0]);
     const [showUpdateBox, setShowUpdateBox] = useState(false);
     const [indexNew, setIndexNew] = useState(-1);
-    const [newValue, setNewValue] = useState('');
     const [showAddBox, setShowAddBox] = useState(false);
     const [newRecipes, setNewRecipes] = useState('');
     const [newIngrd, setNewIngrd] = useState('');
@@ -133,7 +132,6 @@ const handleChange = (event) => {
                 <input 
                 onChange={handleNewRecipes}
                 />
-               
                 <label>
                 <h3>Ingredients</h3>
                     <textarea 
