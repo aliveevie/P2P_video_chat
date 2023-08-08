@@ -1,9 +1,4 @@
 
-const recipes = [
-    'Artichoke Pasta', 'Garlic Chicken', 'Easy Chocolate Pie', 
-    'Lime Chicken Tacos', 'Fatera'
-];
-
 const ingredientList = {
     'Artichoke Pasta':  ['2 tablespoons butter',
     '2 cloves garlic, minced',
@@ -97,7 +92,6 @@ const directiontList = {
 }
 
 export{
-    recipes,
     ingredientList,
     directiontList
 }

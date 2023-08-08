@@ -14,6 +14,33 @@ export default  function Recipes(){
     const [indexNew, setIndexNew] = useState(-1);
     const [newValue, setNewValue] = useState('');
     const [showAddBox, setShowAddBox] = useState(false);
+    const [newRecipes, setNewRecipes] = useState('');
+    const [newIngrd, setNewIngrd] = useState('');
+    const [newdirec, setNewDirec] = useState('');
+
+    function handleNewRecipes(event){
+        setNewRecipes(event.target.value)
+    }
+
+    function handleNewIngrd(event){
+        setNewIngrd(event.target.value)
+    }
+
+    function handleNewDirection(event){
+        setNewDirec(event.target.value); 
+    }
+
+    function handleSavingClick(){
+        const newRecipesList = [...recipes, newRecipes]
+        setRecipes(newRecipesList);
+        ingredientList[newRecipes] = newIngrd.split('\n')
+        directiontList[newRecipes] = newdirec.split('\n');
+        setShowAddBox(false);
+        setNewIngrd(''); // Clear the new ingredient input
+        setNewDirec(''); // Clear the new direction input
+    }
+
+   
     
     function handleButtonClick(recipe){
         setHeader(recipe)
@@ -39,7 +66,6 @@ function handleDeleteRecipes() {
         }
     }
 }
-
 
 const handleChange = (event) => {
     setIndexNew(recipes.indexOf(header))
@@ -82,9 +108,13 @@ const handleChange = (event) => {
                 onChange={handleChange}
                 />
                 <h3>ingredients</h3>
-                <textarea ></textarea>
+                <textarea 
+            
+                ></textarea>
                 <h3>Directions</h3>
-                <textarea ></textarea>
+                <textarea 
+              
+                ></textarea>
                 <div className="save" >
                     <button
                     onClick={handleSaving}
@@ -94,20 +124,34 @@ const handleChange = (event) => {
 
             </div> }
 
+
             { showAddBox && !showUpdateBox && <div className="update-box" >
                 <button className="close"
-                onClick={handleUpdateBox}
+                onClick={handleHideBox}
                 >X</button>
                 <h3>Recipes </h3>
                 <input 
+                onChange={handleNewRecipes}
                 />
-                <h3>ingredients</h3>
-                <textarea ></textarea>
+               
+                <label>
+                <h3>Ingredients</h3>
+                    <textarea 
+                    defaultValue={newIngrd}
+                    onChange={handleNewIngrd}
+                    ></textarea>
+                </label>
+                <label>
                 <h3>Directions</h3>
-                <textarea ></textarea>
+                <textarea 
+                defaultValue={newdirec}
+                onChange={handleNewDirection}
+                ></textarea>
+                </label>
+                
                 <div className="save" >
                     <button
-                   onClick={handleHideBox}
+                   onClick={handleSavingClick}
                     >Save</button>
                     <button>Close</button>
                 </div>
