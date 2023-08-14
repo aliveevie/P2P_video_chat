@@ -1,40 +1,51 @@
 import './App.css';
-import { useState, useRef, } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Webcam from 'react-webcam';
 
 function App() {
+  const [show, setShow] = useState(false);
+  const [roomName, setRoomName] = useState('');
+  const [initialMount, setInitialMount] = useState(true);
+  const [userMedia, setUserMedia] = useState(null)
 
-  
-  const videoElement = useRef(null);
+  const webcamRef = useRef(null);
 
-  useState(() => {
-    const alert = window.alert('Please allow this computer to use your camera')
-    if(alert){
-      if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
-        
-       const constraints = { video: true, audio: true}
+  useEffect(() => {
+    if (initialMount) {
+      setInitialMount(false); // Set initial mount to false after the first render
+      const requestMediaAccess = async () => {
+        try {
+          setUserMedia(await navigator.mediaDevices.getUserMedia({ video: true, audio: true }));
+          const room = window.prompt('Please Enter the Room Name: ');
+          if (room) {
+            setShow(true);
+            setRoomName(room);
+            if (webcamRef.current) {
+              webcamRef.current.srcObject = userMedia;
+            }
+          }
+        } catch (error) {
+          console.error("Error accessing media devices:", error);
+        }
+      };
 
-       // Access the user's webcam
-       navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-        videoElement = window.getElementById('video')
-        
-        // set the stream as the video element source
-        videoElement.srcObject = stream
-
-        // Play the video
-        videoElement.play();
-
-       })
-       .catch((e) => console.log('Error accessing the webcam'))
-
-      }
-
+      requestMediaAccess();
     }
-  })
+  }, [initialMount, userMedia]); // Empty dependency array ensures this effect runs only once
+
+ 
+
   return (
-    <div className='container' >
-   <div id="video" ></div>
+    <div className='container'>
+      {show && 
+        <div>
+          <p>Room Name: {roomName}</p>
+          <Webcam audio={false} videoConstraints={{ facingMode: "user" }} ref={webcamRef} />
+        </div>
+      }
     </div>
   );
+  
 }
 
 export default App;
