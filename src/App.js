@@ -1,48 +1,58 @@
 import './App.css';
 import React, { useState, useEffect, useRef } from 'react';
-import Webcam from 'react-webcam';
+
 
 function App() {
-  const [show, setShow] = useState(false);
-  const [roomName, setRoomName] = useState('');
-  const [initialMount, setInitialMount] = useState(true);
-  const [userMedia, setUserMedia] = useState(null)
+  
+  const localVideoRef = useRef(null);
+  const remoteVideoRef = useRef(null);
+  const peerConnection = useRef(null);
 
-  const webcamRef = useRef(null);
+  const startVideoChat = async () => {
+    try {
+      const userMedia = await navigator.mediaDevices.getUserMedia({ video : true, audio : true});
+      localVideoRef.current.srcObject = userMedia;
 
-  useEffect(() => {
-    if (initialMount) {
-      setInitialMount(false); // Set initial mount to false after the first render
-      const requestMediaAccess = async () => {
-        try {
-          setUserMedia(await navigator.mediaDevices.getUserMedia({ video: true, audio: true }));
-          const room = window.prompt('Please Enter the Room Name: ');
-          if (room) {
-            setShow(true);
-            setRoomName(room);
-            if (webcamRef.current) {
-              webcamRef.current.srcObject = userMedia;
-            }
-          }
-        } catch (error) {
-          console.error("Error accessing media devices:", error);
+      peerConnection.current = new RTCPeerConnection();
+
+      userMedia.getTracks().forEach(track => {
+        peerConnection.current.addTrack(track, userMedia);
+      });
+
+      peerConnection.current.onicecandidate = event => {
+        if(event.candidate){
+
         }
       };
 
-      requestMediaAccess();
-    }
-  }, [initialMount, userMedia]); // Empty dependency array ensures this effect runs only once
+      peerConnection.current.ontrack  = event => {
+        remoteVideoRef.current.srcObject = event.streams[0];
+      };
 
+      const offer = await peerConnection.current.createOffer();
+      await peerConnection.current.setLocalDescription(offer);
+
+
+    }
+    catch (error) {
+      console.log('Error starting the video chat: ', error);
+    }
+  };
+
+  const handleAnswer = async answer => {
+    await peerConnection.current.setRemoteDescription( new RTCSessionDescription)
+  };
+
+  const handleICECandidate = candidate => {
+    peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate))
+  }
  
 
   return (
     <div className='container'>
-      {show && 
-        <div>
-          <p>Room Name: {roomName}</p>
-          <Webcam audio={false} videoConstraints={{ facingMode: "user" }} ref={webcamRef} />
-        </div>
-      }
+      <video ref={localVideoRef} autoPlay muted />
+      <video ref={remoteVideoRef} autoPlay />
+    <button onClickCapture={startVideoChat} text="Start Chat" />
     </div>
   );
   
